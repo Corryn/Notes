@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.core.view.WindowCompat.enableEdgeToEdge
 import com.corryn.notes.ui.theme.NotesTheme
 
 class MainActivity : ComponentActivity() {
