@@ -30,7 +30,7 @@ enum class BottomMenuItems(
     val destination: NotesDestination,
 ) {
     NOTES(label = "Notes", icon = R.drawable.ic_home, destination = NotesDestination.Notes),
-    SETTINGS(label = "Settings", icon = R.drawable.ic_favorite, destination = NotesDestination.Settings),
+    SETTINGS(label = "Settings", icon = R.drawable.ic_settings, destination = NotesDestination.Settings),
 }
 
 /**
