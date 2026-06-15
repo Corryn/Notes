@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
@@ -17,10 +14,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import androidx.core.view.WindowCompat.enableEdgeToEdge
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
+import com.corryn.notes.model.AppDestinations
 import com.corryn.notes.ui.theme.NotesTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,7 +36,8 @@ class MainActivity : ComponentActivity() {
 @PreviewScreenSizes
 @Composable
 fun NotesApp() {
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
+    val appBackstack = rememberAppNavBackStack(NotesDestination.Notes)
+    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.NOTES) }
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -57,22 +56,28 @@ fun NotesApp() {
             }
         }
     ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
+        NavDisplay(
+            backStack = appBackstack,
+            onBack = {
+                appBackstack.removeLastOrNull()
+            },
+            entryProvider = { key ->
+                when (key) {
+                    is NotesDestination.Notes -> NavEntry(key) {
+                        Greeting("")
+                    }
 
-enum class AppDestinations(
-    val label: String,
-    val icon: Int,
-) {
-    HOME("Home", R.drawable.ic_home),
-    FAVORITES("Favorites", R.drawable.ic_favorite),
-    PROFILE("Profile", R.drawable.ic_account_box),
+                    is NotesDestination.Details -> NavEntry(key) {
+                        Greeting("")
+                    }
+
+                    is NotesDestination.Settings -> NavEntry(key) {
+                        Greeting("")
+                    }
+                }
+            }
+        )
+    }
 }
 
 @Composable
