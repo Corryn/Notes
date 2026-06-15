@@ -19,6 +19,9 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.corryn.notes.model.AppDestinations
+import com.corryn.notes.ui.screens.NoteDetailsScreen
+import com.corryn.notes.ui.screens.NoteListScreen
+import com.corryn.notes.ui.screens.SettingsScreen
 import com.corryn.notes.ui.theme.NotesTheme
 
 class MainActivity : ComponentActivity() {
@@ -64,15 +67,15 @@ fun NotesApp() {
             entryProvider = { key ->
                 when (key) {
                     is NotesDestination.Notes -> NavEntry(key) {
-                        Greeting("")
+                        NoteListScreen()
                     }
 
                     is NotesDestination.Details -> NavEntry(key) {
-                        Greeting("")
+                        NoteDetailsScreen(id = key.id)
                     }
 
                     is NotesDestination.Settings -> NavEntry(key) {
-                        Greeting("")
+                        SettingsScreen()
                     }
                 }
             }
