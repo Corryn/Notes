@@ -22,6 +22,18 @@ sealed interface NotesDestination: NavKey {
 }
 
 /**
+ * Represents the top-level menu items of the app.
+ */
+enum class BottomMenuItems(
+    val label: String,
+    val icon: Int,
+    val destination: NotesDestination,
+) {
+    NOTES(label = "Notes", icon = R.drawable.ic_home, destination = NotesDestination.Notes),
+    SETTINGS(label = "Settings", icon = R.drawable.ic_favorite, destination = NotesDestination.Settings),
+}
+
+/**
  * Custom nav back stack for supporting NotesDestination specifically, which is a subtype of NavKey.
  */
 @Composable

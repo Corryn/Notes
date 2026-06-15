@@ -8,17 +8,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
-import com.corryn.notes.model.AppDestinations
 import com.corryn.notes.ui.screens.NoteDetailsScreen
 import com.corryn.notes.ui.screens.NoteListScreen
 import com.corryn.notes.ui.screens.SettingsScreen
@@ -40,11 +35,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NotesApp() {
     val appBackstack = rememberAppNavBackStack(NotesDestination.Notes)
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.NOTES) }
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
-            AppDestinations.entries.forEach {
+            BottomMenuItems.entries.forEach {
                 item(
                     icon = {
                         Icon(
@@ -53,8 +47,11 @@ fun NotesApp() {
                         )
                     },
                     label = { Text(it.label) },
-                    selected = it == currentDestination,
-                    onClick = { currentDestination = it }
+                    selected = it.destination == appBackstack.lastOrNull(),
+                    onClick = {
+                        appBackstack.clear()
+                        appBackstack.add(it.destination)
+                    }
                 )
             }
         }
